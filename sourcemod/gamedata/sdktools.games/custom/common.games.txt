@@ -77,7 +77,7 @@
 			// I have 2 bool params
 			"CommitSuicide"
 			{
-				"windows"	"441"
+				"windows"	"442"
 				"linux"		"442"
 				"mac"		"442"
 			}

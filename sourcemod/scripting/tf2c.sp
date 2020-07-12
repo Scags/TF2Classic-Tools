@@ -220,12 +220,13 @@ public Action OnPlayerRunCmd(int client, int &buttons)
 	return Plugin_Continue;
 }
 
-bool g_iCondAdd[MAXPLAYERS+1][TFCond_LAST];
-bool g_iCondRemove[MAXPLAYERS+1][TFCond_LAST];
+// x2 because conditions will be added maybe maybe maybe?
+bool g_iCondAdd[MAXPLAYERS+1][TFCond_LAST*view_as< TFCond >(2)];
+bool g_iCondRemove[MAXPLAYERS+1][TFCond_LAST*view_as< TFCond >(2)];
 public MRESReturn CTFPlayerShared_AddCond(Address pThis, Handle hParams)
 {
 	Address m_pOuter = view_as< Address >(FindSendPropInfo("CTFPlayer", "m_nNumHealers") - FindSendPropInfo("CTFPlayer", "m_Shared") + 4);
-	int client = GetEntityFromAddress(view_as< Address >((LoadFromAddress(pThis + m_pOuter, NumberType_Int32))));
+	int client = GetEntityFromAddress(view_as< Address >(LoadFromAddress(pThis + m_pOuter, NumberType_Int32)));
 
 	TFCond cond = DHookGetParam(hParams, 1);
 
@@ -238,7 +239,7 @@ public MRESReturn CTFPlayerShared_AddCond(Address pThis, Handle hParams)
 public MRESReturn CTFPlayerShared_AddCondPost(Address pThis, Handle hParams)
 {
 	Address m_pOuter = view_as< Address >(FindSendPropInfo("CTFPlayer", "m_nNumHealers") - FindSendPropInfo("CTFPlayer", "m_Shared") + 4);
-	int client = GetEntityFromAddress(view_as< Address >((LoadFromAddress(pThis + m_pOuter, NumberType_Int32))));
+	int client = GetEntityFromAddress(view_as< Address >(LoadFromAddress(pThis + m_pOuter, NumberType_Int32)));
 
 	if (client == -1 || !IsClientInGame(client))	// Sanity check
 		return;
