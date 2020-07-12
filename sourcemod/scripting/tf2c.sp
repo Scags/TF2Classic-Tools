@@ -72,6 +72,18 @@ stun_struct_t
 	g_Stuns[MAXPLAYERS+1]
 ;
 
+// I hate windows, so, so much
+ArrayStack
+	g_Bullshit1,
+	g_Bullshit2
+;
+
+enum struct CondShit
+{
+	TFCond cond;
+	float time;
+}
+
 #define CHECK(%1,%2) if (!(%1)) LogError("Could not load native for \"" ... %2 ... "\"")
 
 public void OnPluginStart()
@@ -163,6 +175,20 @@ public void OnPluginStart()
 			OnClientPutInServer(i);
 
 	HookEvent("player_death", OnPlayerDeath);
+
+	// SO
+	// Params aren't saved inside of post hooks, so we gotta get fancy, reaaaaally fancy
+	// NOT ONLY THAT!
+	// Because there is a native that calls the function we are hooked into, which calls a forward,
+	// we can hit some serious recursion issues!
+	// THEREFORE
+	// I save the bad coders a headache because I am so very nice
+	// AND
+	// I make an arraystack of params, so we are all one big happy family
+	// 2 for add and remove
+	// 2 blocksize because cond + time
+	g_Bullshit1 = new ArrayStack(2);
+	g_Bullshit2 = new ArrayStack(2);
 }
 
 public void OnClientPutInServer(int client)
@@ -223,65 +249,77 @@ public Action OnPlayerRunCmd(int client, int &buttons)
 // x2 because conditions will be added maybe maybe maybe?
 bool g_iCondAdd[MAXPLAYERS+1][TFCond_LAST*view_as< TFCond >(2)];
 bool g_iCondRemove[MAXPLAYERS+1][TFCond_LAST*view_as< TFCond >(2)];
+
 public MRESReturn CTFPlayerShared_AddCond(Address pThis, Handle hParams)
 {
 	Address m_pOuter = view_as< Address >(FindSendPropInfo("CTFPlayer", "m_nNumHealers") - FindSendPropInfo("CTFPlayer", "m_Shared") + 4);
 	int client = GetEntityFromAddress(view_as< Address >(LoadFromAddress(pThis + m_pOuter, NumberType_Int32)));
 
-	TFCond cond = DHookGetParam(hParams, 1);
+	CondShit shit;
+	shit.cond = DHookGetParam(hParams, 1);
+	shit.time = DHookGetParam(hParams, 2);
+
+	g_Bullshit1.PushArray(shit, sizeof(shit));
 
 	if (client == -1 || !IsClientInGame(client) || !IsPlayerAlive(client))	// Sanity check
 		return;
 
-	if (!TF2_IsPlayerInCondition(client, cond))
-		g_iCondAdd[client][cond] = true;
+//	PrintToChatAll("PRE %N %d %.2f", client, shit.cond, shit.time);
+
+	if (!TF2_IsPlayerInCondition(client, shit.cond))
+		g_iCondAdd[client][shit.cond] = true;
 }
 public MRESReturn CTFPlayerShared_AddCondPost(Address pThis, Handle hParams)
 {
 	Address m_pOuter = view_as< Address >(FindSendPropInfo("CTFPlayer", "m_nNumHealers") - FindSendPropInfo("CTFPlayer", "m_Shared") + 4);
 	int client = GetEntityFromAddress(view_as< Address >(LoadFromAddress(pThis + m_pOuter, NumberType_Int32)));
 
+	CondShit shit;
+	g_Bullshit1.PopArray(shit, sizeof(shit));
+
 	if (client == -1 || !IsClientInGame(client))	// Sanity check
 		return;
 
-	float time = DHookGetParam(hParams, 2);
-	TFCond cond = DHookGetParam(hParams, 1);
+//	PrintToChatAll("POST %N %d %.2f", client, shit.cond, shit.time);
 
 	if (IsPlayerAlive(client))
 	{
 		// If this cond was added, and it stuck, launch the forward
-		if (g_iCondAdd[client][cond] && TF2_IsPlayerInCondition(client, cond))
+		if (g_iCondAdd[client][shit.cond] && TF2_IsPlayerInCondition(client, shit.cond))
 		{
 			Call_StartForward(hOnConditionAdded);
 			Call_PushCell(client);
-			Call_PushCell(cond);
-			Call_PushFloat(time);
+			Call_PushCell(shit.cond);
+			Call_PushFloat(shit.time);
 //			Call_PushCell(provider);
 			Call_Finish();
 		}
 	}
-	g_iCondAdd[client][cond] = false;
+	g_iCondAdd[client][shit.cond] = false;
 }
 
 public MRESReturn CTFPlayerShared_RemoveCond(Address pThis, Handle hParams)
 {
 	Address m_pOuter = view_as< Address >(FindSendPropInfo("CTFPlayer", "m_nNumHealers") - FindSendPropInfo("CTFPlayer", "m_Shared") + 4);
-	int client = GetEntityFromAddress(view_as< Address >((LoadFromAddress(pThis + m_pOuter, NumberType_Int32))));
+	int client = GetEntityFromAddress(view_as< Address >(LoadFromAddress(pThis + m_pOuter, NumberType_Int32)));
 
-	TFCond cond = DHookGetParam(hParams, 1);
+	CondShit shit;
+	shit.cond = DHookGetParam(hParams, 1);
+	g_Bullshit2.PushArray(shit, sizeof(shit));
 
 	if (client == -1 || !IsPlayerAlive(client))	// Sanity check
 		return;
 
-	if (TF2_IsPlayerInCondition(client, cond))
-		g_iCondRemove[client][cond] = true;
+	if (TF2_IsPlayerInCondition(client, shit.cond))
+		g_iCondRemove[client][shit.cond] = true;
 }
 public MRESReturn CTFPlayerShared_RemoveCondPost(Address pThis, Handle hParams)
 {
 	Address m_pOuter = view_as< Address >(FindSendPropInfo("CTFPlayer", "m_nNumHealers") - FindSendPropInfo("CTFPlayer", "m_Shared") + 4);
-	int client = GetEntityFromAddress(view_as< Address >((LoadFromAddress(pThis + m_pOuter, NumberType_Int32))));
+	int client = GetEntityFromAddress(view_as< Address >(LoadFromAddress(pThis + m_pOuter, NumberType_Int32)));
 
-	TFCond cond = DHookGetParam(hParams, 1);
+	CondShit shit;
+	g_Bullshit2.PopArray(shit, sizeof(shit));
 
 	if (client == -1)	// Sanity check
 		return;
@@ -289,15 +327,15 @@ public MRESReturn CTFPlayerShared_RemoveCondPost(Address pThis, Handle hParams)
 	if (IsPlayerAlive(client))
 	{
 		// If this cond was actually removed, launch the forward
-		if (g_iCondRemove[client][cond] && !TF2_IsPlayerInCondition(client, cond))
+		if (g_iCondRemove[client][shit.cond] && !TF2_IsPlayerInCondition(client, shit.cond))
 		{
 			Call_StartForward(hOnConditionRemoved);
 			Call_PushCell(client);
-			Call_PushCell(cond);
+			Call_PushCell(shit.cond);
 			Call_Finish();
 		}
 	}
-	g_iCondRemove[client][cond] = false;
+	g_iCondRemove[client][shit.cond] = false;
 }
 
 public APLRes AskPluginLoad2(Handle self, bool late, char[] error, int max)
