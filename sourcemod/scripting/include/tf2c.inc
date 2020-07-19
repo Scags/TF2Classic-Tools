@@ -817,7 +817,6 @@ stock TFObjectMode TF2_GetObjectMode(int entity)
 native void TF2_IgnitePlayer(int client, int attacker);
 native void TF2_RespawnPlayer(int client);
 native void TF2_RegeneratePlayer(int client);
-// inflictor is unused but exists for bcompat
 native void TF2_AddCondition(int client, TFCond cond, float dur = TFCondDuration_Infinite, int inflictor = 0);
 native void TF2_RemoveCondition(int client, TFCond cond);
 native void TF2_DisguisePlayer(int client, TFTeam team, TFClassType classType, int target = 0);
@@ -830,3 +829,28 @@ forward Action TF2_CalcIsAttackCritical(int client, int weapon, const char[] wea
 forward Action TF2_OnPlayerTeleport(int client, int teleporter, bool &result);
 forward void TF2_OnWaitingForPlayersStart();
 forward void TF2_OnWaitingForPlayersEnd();
+
+public SharedPlugin __pl_tf2c =
+{
+	name = "tf2c",
+	file = "tf2c.smx",
+#if defined REQUIRE_PLUGIN
+	required = 1,
+#else
+	required = 0,
+#endif
+};
+
+#if !defined REQUIRE_PLUGIN
+public void __pl_tf2c_SetNTVOptional()
+{
+	MarkNativeAsOptional("TF2_IgnitePlayer");
+	MarkNativeAsOptional("TF2_RespawnPlayer");
+	MarkNativeAsOptional("TF2_RegeneratePlayer");
+	MarkNativeAsOptional("TF2_AddCondition");
+	MarkNativeAsOptional("TF2_RemoveCondition");
+	MarkNativeAsOptional("TF2_DisguisePlayer");
+	MarkNativeAsOptional("TF2_RemovePlayerDisguise");
+	MarkNativeAsOptional("TF2_StunPlayer");
+}
+#endif
