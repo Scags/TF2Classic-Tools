@@ -18,7 +18,11 @@ public Plugin myinfo =  {
 
 GlobalForward
 	hOnConditionAdded,
-	hOnConditionRemoved
+	hOnConditionRemoved,
+	hCalcIsAttackCritical,
+	hCanPlayerTeleport,
+	hOnWaitingForPlayersStart,
+	hOnWaitingForPlayersEnd
 ;
 
 Handle
@@ -29,6 +33,11 @@ Handle
 	hRemoveCondition,
 	hDisguisePlayer,
 	hRemovePlayerDisguise
+;
+
+Handle
+	hCalcIsAttackCriticalHelper,
+	hCalcIsAttackCriticalHelperNoCrits
 ;
 
 enum struct stun_struct_t
@@ -168,6 +177,26 @@ public void OnPluginStart()
 	}
 	else LogError("Could not load detour for RemoveCondition, TF2_OnConditionRemoved forward has been disabled");
 
+	hook = DHookCreateDetourEx(conf, "CanPlayerTeleport", CallConv_THISCALL, ReturnType_Bool, ThisPointer_CBaseEntity);
+	if (hook)
+	{
+		DHookAddParam(hook, HookParamType_CBaseEntity);
+		DHookEnableDetour(hook, false, CBaseObjectTeleporter_PlayerCanBeTeleported);
+		DHookEnableDetour(hook, true, CBaseObjectTeleporter_PlayerCanBeTeleportedPost);
+	}
+
+	hook = DHookCreateDetourEx(conf, "SetInWaitingForPlayers", CallConv_THISCALL, ReturnType_Void, ThisPointer_Address);
+	if (hook)
+	{
+		DHookAddParam(hook, HookParamType_Bool);
+		DHookEnableDetour(hook, false, CTeamPlayRoundBasedRules_SetInWaitingForPlayers);
+		DHookEnableDetour(hook, true, CTeamPlayRoundBasedRules_SetInWaitingForPlayersPost);
+	}
+
+	// CalcIsAttackCritical
+	hCalcIsAttackCriticalHelper = DHookCreateEx(conf, "CalcIsAttackCriticalHelper", HookType_Entity, ReturnType_Bool, ThisPointer_CBaseEntity, CTFWeaponBase_CalcIsAttackCriticalHelper);
+	hCalcIsAttackCriticalHelperNoCrits = DHookCreateEx(conf, "CalcIsAttackCriticalHelperNoCrits", HookType_Entity, ReturnType_Bool, ThisPointer_CBaseEntity, CTFWeaponBase_CalcIsAttackCriticalHelperNoCrits);
+
 	delete conf;
 
 	for (int i = MaxClients; i; --i)
@@ -187,14 +216,23 @@ public void OnPluginStart()
 	// I make an arraystack of params, so we are all one big happy family
 	// 2 for add and remove
 	// 2 blocksize because cond + time
-	g_Bullshit1 = new ArrayStack(2);
-	g_Bullshit2 = new ArrayStack(2);
+	g_Bullshit1 = new ArrayStack(sizeof(CondShit));
+	g_Bullshit2 = new ArrayStack(sizeof(CondShit));
 }
 
 public void OnClientPutInServer(int client)
 {
 	g_Stuns[client].Reset();
 	SDKHook(client, SDKHook_PreThink, OnPreThink);
+}
+
+public void OnEntityCreated(int ent, const char[] classname)
+{
+	if (!strncmp(classname, "tf_weap", 7, false))
+	{
+		DHookEntity(hCalcIsAttackCriticalHelper, true, ent);
+		DHookEntity(hCalcIsAttackCriticalHelperNoCrits, true, ent);
+	}
 }
 
 public void OnPreThink(int client)
@@ -338,6 +376,73 @@ public MRESReturn CTFPlayerShared_RemoveCondPost(Address pThis, Handle hParams)
 	g_iCondRemove[client][shit.cond] = false;
 }
 
+public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelper(int pThis, Handle hReturn)
+{
+	return CalcIsAttackCritical(pThis, hReturn);
+}
+public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelperNoCrits(int pThis, Handle hReturn)
+{
+	return CalcIsAttackCritical(pThis, hReturn);
+}
+
+public MRESReturn CalcIsAttackCritical(int ent, Handle hReturn)
+{
+	char cls[64]; GetEntityClassname(ent, cls, sizeof(cls));
+	int owner = GetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity");
+	bool ret = DHookGetReturn(hReturn);
+	Action act;
+
+	Call_StartForward(hCalcIsAttackCritical);
+	Call_PushCell(owner);
+	Call_PushCell(ent);
+	Call_PushString(cls);
+	Call_PushCellRef(ret);
+	Call_Finish(act);
+
+	if (act > Plugin_Continue)
+	{
+		DHookSetReturn(hReturn, ret);
+		return MRES_Supercede;
+	}
+	return MRES_Ignored;
+}
+
+int g_TeleportObj, g_TeleportClient;
+public MRESReturn CBaseObjectTeleporter_PlayerCanBeTeleported(int pThis, Handle hReturn, Handle hParams)
+{
+	g_TeleportObj = pThis;
+	g_TeleportClient = DHookGetParam(hParams, 1);
+}
+public MRESReturn CBaseObjectTeleporter_PlayerCanBeTeleportedPost(int pThis, Handle hReturn, Handle hParams)
+{
+	bool result = DHookGetReturn(hReturn);
+	Action action;
+	Call_StartForward(hCanPlayerTeleport);
+	Call_PushCell(g_TeleportObj);
+	Call_PushCell(g_TeleportClient);
+	Call_PushCellRef(result);
+	Call_Finish(action);
+
+	if (action > Plugin_Continue)
+	{
+		DHookSetReturn(hReturn, result);
+		return MRES_Supercede;
+	}
+	return MRES_Ignored;
+}
+
+bool g_SetInWaitingForPlayers;
+public MRESReturn CTeamPlayRoundBasedRules_SetInWaitingForPlayers(Address pThis, Handle hParams)
+{
+	g_SetInWaitingForPlayers = DHookGetParam(hParams, 1);
+}
+public MRESReturn CTeamPlayRoundBasedRules_SetInWaitingForPlayersPost(Address pThis, Handle hParams)
+{
+	GlobalForward f = g_SetInWaitingForPlayers ? hOnWaitingForPlayersStart : hOnWaitingForPlayersEnd;
+	Call_StartForward(f);
+	Call_Finish();
+}
+
 public APLRes AskPluginLoad2(Handle self, bool late, char[] error, int max)
 {
 	CreateNative("TF2_IgnitePlayer", Native_TF2_IgnitePlayer);
@@ -351,6 +456,10 @@ public APLRes AskPluginLoad2(Handle self, bool late, char[] error, int max)
 
 	hOnConditionAdded = new GlobalForward("TF2_OnConditionAdded", ET_Ignore, Param_Cell, Param_Cell, Param_Float);
 	hOnConditionRemoved = new GlobalForward("TF2_OnConditionRemoved", ET_Ignore, Param_Cell, Param_Cell);
+	hCalcIsAttackCritical = new GlobalForward("TF2_CalcIsAttackCritical", ET_Event, Param_Cell, Param_Cell, Param_String, Param_CellByRef);
+	hCanPlayerTeleport = new GlobalForward("TF2_OnPlayerTeleport", ET_Event, Param_Cell, Param_Cell, Param_CellByRef);
+	hOnWaitingForPlayersStart = new GlobalForward("TF2_OnWaitingForPlayersStart", ET_Ignore);
+	hOnWaitingForPlayersEnd = new GlobalForward("TF2_OnWaitingForPlayersEnd", ET_Ignore);
 
 	RegPluginLibrary("tf2c");
 	return APLRes_Success;
