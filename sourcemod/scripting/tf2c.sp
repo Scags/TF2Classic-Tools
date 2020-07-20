@@ -603,8 +603,7 @@ public any Native_TF2_StunPlayer(Handle plugin, int numParams)
 //		if (GetClientTeam(attacker) == GetClientTeam(victim))
 //			return;
 	}
-	if (attacker == 0)
-		attacker = -1;
+	else attacker = -1;
 
 	float remapamount = RemapValClamped(reduction, 0.0, 1.0, 0.0, 255.0);
 //	int oldstunflags = g_Stuns[client].iStunFlags;
