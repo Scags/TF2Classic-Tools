@@ -387,6 +387,9 @@ public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelperNoCrits(int pThis, Han
 
 public MRESReturn CalcIsAttackCritical(int ent, Handle hReturn)
 {
+	if (!IsValidEntity(ent))
+		return MRES_Ignored;
+
 	char cls[64]; GetEntityClassname(ent, cls, sizeof(cls));
 	int owner = GetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity");
 	bool ret = DHookGetReturn(hReturn);
