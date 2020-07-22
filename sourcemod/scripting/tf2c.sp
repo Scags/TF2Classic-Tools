@@ -35,11 +35,6 @@ Handle
 	hRemovePlayerDisguise
 ;
 
-Handle
-	hCalcIsAttackCriticalHelper,
-	hCalcIsAttackCriticalHelperNoCrits
-;
-
 enum struct stun_struct_t
 {
 	int hPlayer;
@@ -193,9 +188,21 @@ public void OnPluginStart()
 		DHookEnableDetour(hook, true, CTeamPlayRoundBasedRules_SetInWaitingForPlayersPost);
 	}
 
-	// CalcIsAttackCritical
-	hCalcIsAttackCriticalHelper = DHookCreateEx(conf, "CalcIsAttackCriticalHelper", HookType_Entity, ReturnType_Bool, ThisPointer_CBaseEntity, CTFWeaponBase_CalcIsAttackCriticalHelper);
-	hCalcIsAttackCriticalHelperNoCrits = DHookCreateEx(conf, "CalcIsAttackCriticalHelperNoCrits", HookType_Entity, ReturnType_Bool, ThisPointer_CBaseEntity, CTFWeaponBase_CalcIsAttackCriticalHelperNoCrits);
+	// So, TF2Classic is stupid or something but I can't use a plain DHook for this
+	// Gotta detour it ;-;
+//	hook = DHookCreateDetourEx(conf, "CalcIsAttackCritical", CallConv_THISCALL, ReturnType_Bool, ThisPointer_CBaseEntity);
+//	if (hook)
+//	{
+//		DHookEnableDetour(hook, false, CTFWeaponBase_CalcIsAttackCriticalHelper);
+//		DHookEnableDetour(hook, true, CTFWeaponBase_CalcIsAttackCriticalHelperPost);
+//	}
+//
+//	hook = DHookCreateDetourEx(conf, "CalcIsAttackCriticalHelperNoCrits", CallConv_THISCALL, ReturnType_Bool, ThisPointer_CBaseEntity);
+//	if (hook)
+//	{
+//		DHookEnableDetour(hook, false, CTFWeaponBase_CalcIsAttackCriticalHelperNoCrits);
+//		DHookEnableDetour(hook, true, CTFWeaponBase_CalcIsAttackCriticalHelperNoCritsPost);		
+//	}
 
 	delete conf;
 
@@ -224,15 +231,6 @@ public void OnClientPutInServer(int client)
 {
 	g_Stuns[client].Reset();
 	SDKHook(client, SDKHook_PreThink, OnPreThink);
-}
-
-public void OnEntityCreated(int ent, const char[] classname)
-{
-	if (!strncmp(classname, "tf_weap", 7, false))
-	{
-		DHookEntity(hCalcIsAttackCriticalHelper, true, ent);
-		DHookEntity(hCalcIsAttackCriticalHelperNoCrits, true, ent);
-	}
 }
 
 public void OnPreThink(int client)
@@ -378,18 +376,24 @@ public MRESReturn CTFPlayerShared_RemoveCondPost(Address pThis, Handle hParams)
 
 public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelper(int pThis, Handle hReturn)
 {
-	return CalcIsAttackCritical(pThis, hReturn);
+	// For safe keeping
+	// https://brewcrew.tf/images/gimgim.png
 }
 public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelperNoCrits(int pThis, Handle hReturn)
+{
+}
+
+public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelperPost(int pThis, Handle hReturn)
+{
+	return CalcIsAttackCritical(pThis, hReturn);
+}
+public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelperNoCritsPost(int pThis, Handle hReturn)
 {
 	return CalcIsAttackCritical(pThis, hReturn);
 }
 
 public MRESReturn CalcIsAttackCritical(int ent, Handle hReturn)
 {
-	if (!IsValidEntity(ent))
-		return MRES_Ignored;
-
 	char cls[64]; GetEntityClassname(ent, cls, sizeof(cls));
 	int owner = GetEntPropEnt(ent, Prop_Send, "m_hOwnerEntity");
 	bool ret = DHookGetReturn(hReturn);
