@@ -190,19 +190,19 @@ public void OnPluginStart()
 
 	// So, TF2Classic is stupid or something but I can't use a plain DHook for this
 	// Gotta detour it ;-;
-//	hook = DHookCreateDetourEx(conf, "CalcIsAttackCritical", CallConv_THISCALL, ReturnType_Bool, ThisPointer_CBaseEntity);
-//	if (hook)
-//	{
-//		DHookEnableDetour(hook, false, CTFWeaponBase_CalcIsAttackCriticalHelper);
-//		DHookEnableDetour(hook, true, CTFWeaponBase_CalcIsAttackCriticalHelperPost);
-//	}
-//
-//	hook = DHookCreateDetourEx(conf, "CalcIsAttackCriticalHelperNoCrits", CallConv_THISCALL, ReturnType_Bool, ThisPointer_CBaseEntity);
-//	if (hook)
-//	{
-//		DHookEnableDetour(hook, false, CTFWeaponBase_CalcIsAttackCriticalHelperNoCrits);
-//		DHookEnableDetour(hook, true, CTFWeaponBase_CalcIsAttackCriticalHelperNoCritsPost);		
-//	}
+	hook = DHookCreateDetourEx(conf, "CalcIsAttackCriticalHelper", CallConv_THISCALL, ReturnType_Bool, ThisPointer_CBaseEntity);
+	if (hook)
+	{
+		DHookEnableDetour(hook, false, CTFWeaponBase_CalcIsAttackCriticalHelper);
+		DHookEnableDetour(hook, true, CTFWeaponBase_CalcIsAttackCriticalHelperPost);
+	}
+
+	hook = DHookCreateDetourEx(conf, "CalcIsAttackCriticalHelperNoCrits", CallConv_THISCALL, ReturnType_Bool, ThisPointer_CBaseEntity);
+	if (hook)
+	{
+		DHookEnableDetour(hook, false, CTFWeaponBase_CalcIsAttackCriticalHelperNoCrits);
+		DHookEnableDetour(hook, true, CTFWeaponBase_CalcIsAttackCriticalHelperNoCritsPost);		
+	}
 
 	delete conf;
 
@@ -283,8 +283,8 @@ public Action OnPlayerRunCmd(int client, int &buttons)
 }
 
 // x2 because conditions will be added maybe maybe maybe?
-bool g_iCondAdd[MAXPLAYERS+1][TFCond_LAST*view_as< TFCond >(2)];
-bool g_iCondRemove[MAXPLAYERS+1][TFCond_LAST*view_as< TFCond >(2)];
+bool g_iCondAdd[MAXPLAYERS+1][view_as< int >(TFCond_LAST)*2];
+bool g_iCondRemove[MAXPLAYERS+1][view_as< int >(TFCond_LAST)*2];
 
 public MRESReturn CTFPlayerShared_AddCond(Address pThis, Handle hParams)
 {
@@ -698,7 +698,7 @@ stock Handle DHookCreateEx(Handle gc, const char[] key, HookType hooktype, Retur
 		LogError("Failed to get offset of %s", key);
 		return null;
 	}
-	
+
 	return DHookCreate(iOffset, hooktype, returntype, thistype, callback);
 }
 
