@@ -97,9 +97,10 @@ public void OnPluginStart()
 		SetFailState("Gamedata \"tf2classic/addons/sourcemod/gamedata/tf2c.txt\" does not exist.");
 
 	// Burn
-	StartPrepSDKCall(SDKCall_Player);
+	StartPrepSDKCall(SDKCall_Raw);
 	PrepSDKCall_SetFromConf(conf, SDKConf_Signature, "Burn");
 	PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
+	PrepSDKCall_AddParameter(SDKType_CBaseEntity, SDKPass_Pointer, VDECODE_FLAG_ALLOWNULL);
 	hIgnitePlayer = EndPrepSDKCall();
 	CHECK(hIgnitePlayer, "TF2_IgnitePlayer");
 
@@ -495,7 +496,7 @@ public any Native_TF2_IgnitePlayer(Handle plugin, int numParams)
 	if (!IsClientInGame(attacker))
 		return ThrowNativeError(SP_ERROR_NATIVE, "Attacker %d is not in-game.", attacker);
 
-	SDKCall(hIgnitePlayer, client, attacker);
+	SDKCall(hIgnitePlayer, GetEntityAddress(client) + view_as< Address >(FindSendPropInfo("CTFPlayer", "m_Shared")), attacker, -1);
 	return 0;
 }
 
