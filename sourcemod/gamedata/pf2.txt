@@ -1,6 +1,6 @@
 "Games"
 {
-	"tf2classic"
+	"pf2"
 	{
 		"Offsets"
 		{
