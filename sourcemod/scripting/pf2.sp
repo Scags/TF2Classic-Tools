@@ -19,8 +19,8 @@ public Plugin myinfo =  {
 GlobalForward
 	hOnConditionAdded,
 	hOnConditionRemoved,
-	hCalcIsAttackCritical,
-	hCanPlayerTeleport,
+	//hCalcIsAttackCritical,
+	//hCanPlayerTeleport,
 	hOnWaitingForPlayersStart,
 	hOnWaitingForPlayersEnd
 ;
@@ -92,7 +92,7 @@ enum struct CondShit
 
 public void OnPluginStart()
 {
-	GameData conf = LoadGameConfigFile("tf2c");
+	GameData conf = LoadGameConfigFile("pf2");
 	if (!conf)	// Dies anyway but w/e
 		SetFailState("Gamedata \"tf2classic/addons/sourcemod/gamedata/tf2c.txt\" does not exist.");
 
@@ -173,13 +173,13 @@ public void OnPluginStart()
 	}
 	else LogError("Could not load detour for RemoveCondition, TF2_OnConditionRemoved forward has been disabled");
 
-	hook = DHookCreateDetourEx(conf, "CanPlayerTeleport", CallConv_THISCALL, ReturnType_Bool, ThisPointer_CBaseEntity);
+	/*hook = DHookCreateDetourEx(conf, "CanPlayerTeleport", CallConv_THISCALL, ReturnType_Bool, ThisPointer_CBaseEntity);
 	if (hook)
 	{
 		DHookAddParam(hook, HookParamType_CBaseEntity);
 		DHookEnableDetour(hook, false, CBaseObjectTeleporter_PlayerCanBeTeleported);
 		DHookEnableDetour(hook, true, CBaseObjectTeleporter_PlayerCanBeTeleportedPost);
-	}
+	}*/
 
 	hook = DHookCreateDetourEx(conf, "SetInWaitingForPlayers", CallConv_THISCALL, ReturnType_Void, ThisPointer_Address);
 	if (hook)
@@ -189,7 +189,7 @@ public void OnPluginStart()
 		DHookEnableDetour(hook, true, CTeamPlayRoundBasedRules_SetInWaitingForPlayersPost);
 	}
 
-	// So, TF2Classic is stupid or something but I can't use a plain DHook for this
+	/*// So, TF2Classic is stupid or something but I can't use a plain DHook for this
 	// Gotta detour it ;-;
 	hook = DHookCreateDetourEx(conf, "CalcIsAttackCriticalHelper", CallConv_THISCALL, ReturnType_Bool, ThisPointer_CBaseEntity);
 	if (hook)
@@ -203,7 +203,7 @@ public void OnPluginStart()
 	{
 		DHookEnableDetour(hook, false, CTFWeaponBase_CalcIsAttackCriticalHelperNoCrits);
 		DHookEnableDetour(hook, true, CTFWeaponBase_CalcIsAttackCriticalHelperNoCritsPost);		
-	}
+	}*/
 
 	delete conf;
 
@@ -375,7 +375,7 @@ public MRESReturn CTFPlayerShared_RemoveCondPost(Address pThis, Handle hParams)
 	g_iCondRemove[client][shit.cond] = false;
 }
 
-public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelper(int pThis, Handle hReturn)
+/*public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelper(int pThis, Handle hReturn)
 {
 	// For safe keeping
 	// https://brewcrew.tf/images/gimgim.png
@@ -413,9 +413,9 @@ public MRESReturn CalcIsAttackCritical(int ent, Handle hReturn)
 		return MRES_Supercede;
 	}
 	return MRES_Ignored;
-}
+}*/
 
-int g_TeleportObj, g_TeleportClient;
+/*int g_TeleportObj, g_TeleportClient;
 public MRESReturn CBaseObjectTeleporter_PlayerCanBeTeleported(int pThis, Handle hReturn, Handle hParams)
 {
 	g_TeleportObj = pThis;
@@ -437,7 +437,7 @@ public MRESReturn CBaseObjectTeleporter_PlayerCanBeTeleportedPost(int pThis, Han
 		return MRES_Supercede;
 	}
 	return MRES_Ignored;
-}
+}*/
 
 bool g_SetInWaitingForPlayers;
 public MRESReturn CTeamPlayRoundBasedRules_SetInWaitingForPlayers(Address pThis, Handle hParams)
@@ -464,8 +464,8 @@ public APLRes AskPluginLoad2(Handle self, bool late, char[] error, int max)
 
 	hOnConditionAdded = new GlobalForward("TF2_OnConditionAdded", ET_Ignore, Param_Cell, Param_Cell, Param_Float);
 	hOnConditionRemoved = new GlobalForward("TF2_OnConditionRemoved", ET_Ignore, Param_Cell, Param_Cell);
-	hCalcIsAttackCritical = new GlobalForward("TF2_CalcIsAttackCritical", ET_Event, Param_Cell, Param_Cell, Param_String, Param_CellByRef);
-	hCanPlayerTeleport = new GlobalForward("TF2_OnPlayerTeleport", ET_Event, Param_Cell, Param_Cell, Param_CellByRef);
+	//hCalcIsAttackCritical = new GlobalForward("TF2_CalcIsAttackCritical", ET_Event, Param_Cell, Param_Cell, Param_String, Param_CellByRef);
+	//hCanPlayerTeleport = new GlobalForward("TF2_OnPlayerTeleport", ET_Event, Param_Cell, Param_Cell, Param_CellByRef);
 	hOnWaitingForPlayersStart = new GlobalForward("TF2_OnWaitingForPlayersStart", ET_Ignore);
 	hOnWaitingForPlayersEnd = new GlobalForward("TF2_OnWaitingForPlayersEnd", ET_Ignore);
 
