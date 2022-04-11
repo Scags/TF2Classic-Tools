@@ -4,14 +4,14 @@
 
 #pragma newdecls required
 #pragma semicolon 1
-#include <tf2c>
+#include <pf2>
 
 #define PLUGIN_VERSION 		"1.0.0"
 
 public Plugin myinfo =  {
-	name = "TF2 Classic Tools", 
-	author = "Scag", 
-	description = "TF2 Classic natives and forwards for SourceMod", 
+	name = "PF2 Tools", 
+	author = "original TF2Classic version by Scag, PF2 version by Sour Dani & conneath", 
+	description = "PF2 natives and forwards for SourceMod", 
 	version = PLUGIN_VERSION, 
 	url = ""
 };
