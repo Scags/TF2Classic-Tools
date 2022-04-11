@@ -1,5 +1,5 @@
-# TF2Classic-Tools
-Basic tools for TF2Classic dedicated server development
+# PF2-Tools
+Basic tools for Pre-Fortress 2 dedicated server development
 
 Also comes with base SourceMod gamedata.
 
@@ -17,4 +17,4 @@ To
 #include <tf2c>
 ```
 
-Be aware that a simple recompilation isn't a guaranteed import! TF2Classic does not support certain natives and behaviors that TF2 does.
+Be aware that a simple recompilation isn't a guaranteed import! Pre-Fortress does not support certain natives and behaviors that TF2 does.
