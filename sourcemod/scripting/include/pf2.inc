@@ -1,10 +1,10 @@
-#if defined _tf2c_included
+#if defined _pf2_included
 	#endinput
 #endif
-#define _tf2c_included
+#define _pf2_included
 
 #if defined _tf2_included
-	#error You cannot have both TF2 and TF2Classic includes included in your plugin
+	#error You cannot have both TF2 and PF2 includes included in your plugin
 #endif
 
 // We're overriding this shit
@@ -829,10 +829,10 @@ forward Action TF2_OnPlayerTeleport(int client, int teleporter, bool &result);
 forward void TF2_OnWaitingForPlayersStart();
 forward void TF2_OnWaitingForPlayersEnd();
 
-public SharedPlugin __pl_tf2c =
+public SharedPlugin __pl_pf2 =
 {
-	name = "tf2c",
-	file = "tf2c.smx",
+	name = "pf2",
+	file = "pf2.smx",
 #if defined REQUIRE_PLUGIN
 	required = 1,
 #else
@@ -841,7 +841,7 @@ public SharedPlugin __pl_tf2c =
 };
 
 #if !defined REQUIRE_PLUGIN
-public void __pl_tf2c_SetNTVOptional()
+public void __pl_pf2_SetNTVOptional()
 {
 	MarkNativeAsOptional("TF2_IgnitePlayer");
 	MarkNativeAsOptional("TF2_RespawnPlayer");
