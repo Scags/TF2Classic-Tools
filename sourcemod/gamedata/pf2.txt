@@ -22,12 +22,12 @@
 				"linux" 	"394"
 			}
 			// + 1 from CalcIsAttackCriticalHelper
-			"CalcIsAttackCriticalHelperNoCrits"
-			{
-				"windows" 	"390"
-				"linux" 	"395"
-				"linux" 	"395"
-			}
+			//"CalcIsAttackCriticalHelperNoCrits"
+			//{
+			//	"windows" 	"390"
+			//	"linux" 	"395"
+			//	"linux" 	"395"
+			//}
 		}
 		"Signatures"
 		{
