@@ -275,11 +275,11 @@ public void TF2_OnConditionRemoved(int client, TFCond cond)
 
 public Action OnPlayerRunCmd(int client, int &buttons)
 {
-	if (TF2_IsPlayerInCondition(client, TFCond_Dazed))
+	/*if (TF2_IsPlayerInCondition(client, TFCond_Dazed))
 	{
 		buttons &= ~(IN_JUMP|IN_ATTACK|IN_ATTACK2);
 		return Plugin_Changed;
-	}
+	}*/
 	return Plugin_Continue;
 }
 
