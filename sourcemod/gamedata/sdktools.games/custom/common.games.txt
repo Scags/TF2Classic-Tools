@@ -27,9 +27,9 @@
 			// Dynamic cast CBaseEntity -> CBaseCombatWeapon
 			"GiveNamedItem"
 			{
-				"windows"	"401"
-				"linux"		"402"
-				"mac"		"402"
+				"windows"	"402"
+				"linux"		"403"
+				"mac"		"403"
 			}
 			// CBasePlayer::OnTakeDamageAlive is + 2 from me
 			// Has "player_hurt" string and a bunch of guard variables
@@ -77,9 +77,9 @@
 			// I have 2 bool params
 			"CommitSuicide"
 			{
-				"windows"	"442"
-				"linux"		"442"
-				"mac"		"442"
+				"windows"	"441"
+				"linux"		"441"
+				"mac"		"441"
 			}
 			// CBaseEntity::FVisible is + 1 from me
 			// Has "CBaseEntity::FVisible" with vprof stuff
@@ -129,9 +129,9 @@
 			// Has "playerhealth"
 			"PlayerRunCmd"
 			{
-				"windows"	"419"
-				"linux"		"420"
-				"mac"		"420"
+				"windows"	"420"
+				"linux"		"421"
+				"mac"		"421"
 			}
 			// Probably 9 less than WeaponEquip
 			"GiveAmmo"
@@ -170,11 +170,12 @@
 			 * Linux: 	mov     byte ptr [esi+98h], 0
 			 * Win:	mov     byte ptr [esi+0A4h], 0
 			 */
+			// conn - probably isn't right but who cares
 			"InfoChanged"
 			{
-				"windows"	"140"
-				"linux"		"140"
-				"mac"		"140"
+				"windows"	"79"
+				"linux"		"80"
+				"mac"		"80"
 			}
 		}
 		"Keys"
@@ -189,8 +190,8 @@
 			{
 				"library"	"server"
 				"windows"	"\x55\x8B\xEC\x81\xEC\x30\x01\x00\x00\xA1\x2A\x2A\x2A\x2A\x33\xC5\x89\x45\xFC\x53"
-				"linux"		"\x55\x89\xE5\x57\x56\x53\x81\xEC\x8C\x01\x00\x00\x8B\x45\x08\x8B\x75\x0C"
-				"mac"		"\x55\x89\xE5\x57\x56\x53\x81\xEC\x8C\x01\x00\x00\x8B\x45\x08\x8B\x75\x0C"
+				"linux"		"\x55\x89\xE5\x57\x56\x53\x81\xEC\xAC\x01\x00\x00\x8B\x55\x08"
+				"mac"		"\x55\x89\xE5\x57\x56\x53\x81\xEC\xAC\x01\x00\x00\x8B\x55\x08"
 			}
 		}
 	}
