@@ -1,5 +1,5 @@
 # PF2-Tools
-Basic tools for Pre-Fortress 2 Dev Build dedicated server development
+Basic tools for Pre-Fortress 2 dedicated server development
 
 Also comes with base SourceMod gamedata.
 
