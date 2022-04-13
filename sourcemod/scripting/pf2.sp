@@ -469,7 +469,7 @@ public APLRes AskPluginLoad2(Handle self, bool late, char[] error, int max)
 	hOnWaitingForPlayersStart = new GlobalForward("TF2_OnWaitingForPlayersStart", ET_Ignore);
 	hOnWaitingForPlayersEnd = new GlobalForward("TF2_OnWaitingForPlayersEnd", ET_Ignore);
 
-	RegPluginLibrary("tf2c");
+	RegPluginLibrary("pf2");
 	return APLRes_Success;
 }
 
