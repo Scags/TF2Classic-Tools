@@ -1,8 +1,8 @@
 # PF2-Tools
 Basic tools for Pre-Fortress 2 Dev Build dedicated server development
 
-NOTE: the signatures might not be accurate due to how much the dev build binaries change, you have been warned
-Also comes with base SourceMod gamedata.
+**NOTE: the signatures might not be accurate due to how much the dev build binaries change, you have been warned
+Also comes with base SourceMod gamedata.**
 
 ### Usage ###
 The main purpose of the this is to remap the natives and forwards that TF2 plugins rely on from the TF2 extension and have them point to the plugin instead. This is because loading the extension on PF2 is impossible without a custom build of SourceMod. To avoid that headache, simply edit and recompile plugins from TF2 (given that they work on PF2) and they will no longer rely on the TF2 extension.
