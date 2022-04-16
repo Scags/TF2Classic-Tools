@@ -3,6 +3,8 @@ Basic tools for Pre-Fortress 2 dedicated server development
 
 Also comes with base SourceMod gamedata.
 
+You must install sourcemod/metamod 1.10.0.6502 or 1.10.0.6503
+
 # New forks
 
 If you are interested in making a version for your own Source Mod, use [this video guide](https://youtu.be/SD6Rn2D7IGo) by the original creator to find the **digital signatures.**
