@@ -60,8 +60,8 @@
 			{
 				"library"	"server"
 				"windows"	"\x55\x8B\xEC\x51\x53\x8B\xD9\x56\x57\x8B\x03\x8B\xBB\xF4\x00\x00\x00"
-				"linux"		"@_ZN9CTFPlayer17RegenerateRespawnEv"
-				"mac"		"@_ZN9CTFPlayer17RegenerateRespawnEv"
+				"linux"		"@_ZN9CTFPlayer10RegenerateEv"
+				"mac"		"@_ZN9CTFPlayer10RegenerateEv"
 			}
 			// RemoveDisguise calls both of me
 			// Burn calls me. look for 16h
