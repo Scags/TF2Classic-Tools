@@ -4,11 +4,12 @@ Basic tools for Pre-Fortress 2 Dev Build dedicated server development
 
 This program comes with base SourceMod gamedata.
 
+# Wiki
+Please visit our [wiki pages](https://github.com/dangreene0/PF2-Tools/wiki) for more information on PF2-Tools or adding automatic signature scanning to your Source Mod.
+
 # Requirements
 
 You must install sourcemod [1.10.0.6502 or 1.10.0.6503](https://www.sourcemod.net/downloads.php?branch=1.10-dev&all=1) & [DHooks](https://github.com/peace-maker/DHooks2/releases)
-
-
 
 ### Usage ###
 The main purpose of the this is to remap the natives and forwards signatures that TF2 plugins rely on from the TF2 extension and have them point to the plugin instead. This is because loading the extension on PF2 is impossible without a custom build of SourceMod. To avoid that headache, simply edit and recompile plugins from TF2 (given that they work on PF2) and they will no longer rely on the TF2 extension.
