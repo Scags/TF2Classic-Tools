@@ -9,9 +9,9 @@
 			// This is CBasePlayer::SetSolidMask and has 2000000h and 1400Bh
 			"CanBeAutobalanced"
 			{
-				"windows" 	"458"
-				"linux"		"459"
-				"mac"		"459"
+				"windows" 	"457"
+				"linux"		"458"
+				"mac"		"458"
 			}
 			// "Invalid Condition ID [%d] in trigger %s"
 			// References 0FFFFFFFFh twice
@@ -19,7 +19,7 @@
 			{
 				"windows" 	"100"
 				"linux"		"101"
-				"mac"		"101	"
+				"mac"		"101"
 			}
 			// "RagdollImpact"
 			"FireBullets"
@@ -179,9 +179,9 @@
 			// cmp     dword ptr [ebx+64h], offset aWeaponSmg1 ; "weapon_smg1"
 			"Weapon_Drop"
 			{
-				"windows" 	"261"
-				"linux"		"262"
-				"mac"		"262"
+				"windows" 	"264"
+				"linux"		"265"
+				"mac"		"265"
 			}
 			// - 2 from Weapon_Drop
 			"Weapon_Equip"
@@ -193,9 +193,9 @@
 			// + 1 from Weapon_Drop
 			"Weapon_Switch"
 			{
-				"windows" 	"262"
-				"linux"		"263"
-				"mac"		"263"
+				"windows" 	"265"
+				"linux"		"266"
+				"mac"		"266"
 			}
 		}
 	}
