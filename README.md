@@ -1,17 +1,17 @@
 # PF2-Tools
 Basic tools for Pre-Fortress 2 Dev Build dedicated server development
+- PF2 0.6 is not supported at this time as it pretty much doesn't work
 
-<!--**NOTE: the signatures might not be accurate due to how much the dev build binaries change, you have been warned-->
-Also comes with base SourceMod gamedata.
+This program comes with base SourceMod gamedata.
 
-You must install sourcemod 1.10.0.6502 or 1.10.0.6503 & [DHooks](https://github.com/peace-maker/DHooks2/releases)
+# Requirements
 
-# New forks
+You must install sourcemod [1.10.0.6502 or 1.10.0.6503](https://www.sourcemod.net/downloads.php?branch=1.10-dev&all=1) & [DHooks](https://github.com/peace-maker/DHooks2/releases)
 
-If you are interested in making a version for your own Source Mod, use [this video guide](https://youtu.be/SD6Rn2D7IGo) by the original creator to find the **digital signatures.**
+
 
 ### Usage ###
-The main purpose of the this is to remap the natives and forwards that TF2 plugins rely on from the TF2 extension and have them point to the plugin instead. This is because loading the extension on PF2 is impossible without a custom build of SourceMod. To avoid that headache, simply edit and recompile plugins from TF2 (given that they work on PF2) and they will no longer rely on the TF2 extension.
+The main purpose of the this is to remap the natives and forwards signatures that TF2 plugins rely on from the TF2 extension and have them point to the plugin instead. This is because loading the extension on PF2 is impossible without a custom build of SourceMod. To avoid that headache, simply edit and recompile plugins from TF2 (given that they work on PF2) and they will no longer rely on the TF2 extension.
 
 Just go into the plugin(s) you want to use and change:
 ```cpp
@@ -25,3 +25,7 @@ To
 ```
 
 Be aware that a simple recompilation isn't a guaranteed import! Pre-Fortress does not support certain natives and behaviors that TF2 does.
+
+# New forks
+
+If you are interested in making a version for your own Source Mod, use [this video guide](https://youtu.be/SD6Rn2D7IGo) by the original creator to find the **digital signatures.**
