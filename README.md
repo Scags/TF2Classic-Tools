@@ -4,7 +4,7 @@ Basic tools for Pre-Fortress 2 Dev Build dedicated server development
 <!--**NOTE: the signatures might not be accurate due to how much the dev build binaries change, you have been warned-->
 Also comes with base SourceMod gamedata.
 
-You must install sourcemod/metamod 1.10.0.6502 or 1.10.0.6503
+You must install sourcemod 1.10.0.6502 or 1.10.0.6503 & [DHooks](https://github.com/peace-maker/DHooks2/releases)
 
 # New forks
 
