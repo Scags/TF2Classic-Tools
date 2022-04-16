@@ -1,8 +1,8 @@
 # PF2-Tools
 Basic tools for Pre-Fortress 2 Dev Build dedicated server development
 
-**NOTE: the signatures might not be accurate due to how much the dev build binaries change, you have been warned
-Also comes with base SourceMod gamedata.**
+<!--**NOTE: the signatures might not be accurate due to how much the dev build binaries change, you have been warned-->
+Also comes with base SourceMod gamedata.
 
 You must install sourcemod/metamod 1.10.0.6502 or 1.10.0.6503
 
