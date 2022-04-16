@@ -19,7 +19,7 @@ public Plugin myinfo =  {
 GlobalForward
 	hOnConditionAdded,
 	hOnConditionRemoved,
-	//hCalcIsAttackCritical,
+	hCalcIsAttackCritical,
 	//hCanPlayerTeleport,
 	hOnWaitingForPlayersStart,
 	hOnWaitingForPlayersEnd
@@ -189,7 +189,7 @@ public void OnPluginStart()
 		DHookEnableDetour(hook, true, CTeamPlayRoundBasedRules_SetInWaitingForPlayersPost);
 	}
 
-	/*// So, TF2Classic is stupid or something but I can't use a plain DHook for this
+	// So, TF2Classic is stupid or something but I can't use a plain DHook for this
 	// Gotta detour it ;-;
 	hook = DHookCreateDetourEx(conf, "CalcIsAttackCriticalHelper", CallConv_THISCALL, ReturnType_Bool, ThisPointer_CBaseEntity);
 	if (hook)
@@ -198,7 +198,7 @@ public void OnPluginStart()
 		DHookEnableDetour(hook, true, CTFWeaponBase_CalcIsAttackCriticalHelperPost);
 	}
 
-	hook = DHookCreateDetourEx(conf, "CalcIsAttackCriticalHelperNoCrits", CallConv_THISCALL, ReturnType_Bool, ThisPointer_CBaseEntity);
+	/*hook = DHookCreateDetourEx(conf, "CalcIsAttackCriticalHelperNoCrits", CallConv_THISCALL, ReturnType_Bool, ThisPointer_CBaseEntity);
 	if (hook)
 	{
 		DHookEnableDetour(hook, false, CTFWeaponBase_CalcIsAttackCriticalHelperNoCrits);
@@ -375,23 +375,23 @@ public MRESReturn CTFPlayerShared_RemoveCondPost(Address pThis, Handle hParams)
 	g_iCondRemove[client][shit.cond] = false;
 }
 
-/*public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelper(int pThis, Handle hReturn)
+public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelper(int pThis, Handle hReturn)
 {
 	// For safe keeping
 	// https://brewcrew.tf/images/gimgim.png
 }
-public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelperNoCrits(int pThis, Handle hReturn)
+/*public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelperNoCrits(int pThis, Handle hReturn)
 {
-}
+}*/
 
 public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelperPost(int pThis, Handle hReturn)
 {
 	return CalcIsAttackCritical(pThis, hReturn);
 }
-public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelperNoCritsPost(int pThis, Handle hReturn)
+/*public MRESReturn CTFWeaponBase_CalcIsAttackCriticalHelperNoCritsPost(int pThis, Handle hReturn)
 {
 	return CalcIsAttackCritical(pThis, hReturn);
-}
+}*/
 
 public MRESReturn CalcIsAttackCritical(int ent, Handle hReturn)
 {
@@ -413,7 +413,7 @@ public MRESReturn CalcIsAttackCritical(int ent, Handle hReturn)
 		return MRES_Supercede;
 	}
 	return MRES_Ignored;
-}*/
+}
 
 /*int g_TeleportObj, g_TeleportClient;
 public MRESReturn CBaseObjectTeleporter_PlayerCanBeTeleported(int pThis, Handle hReturn, Handle hParams)
@@ -464,7 +464,7 @@ public APLRes AskPluginLoad2(Handle self, bool late, char[] error, int max)
 
 	hOnConditionAdded = new GlobalForward("TF2_OnConditionAdded", ET_Ignore, Param_Cell, Param_Cell, Param_Float);
 	hOnConditionRemoved = new GlobalForward("TF2_OnConditionRemoved", ET_Ignore, Param_Cell, Param_Cell);
-	//hCalcIsAttackCritical = new GlobalForward("TF2_CalcIsAttackCritical", ET_Event, Param_Cell, Param_Cell, Param_String, Param_CellByRef);
+	hCalcIsAttackCritical = new GlobalForward("TF2_CalcIsAttackCritical", ET_Event, Param_Cell, Param_Cell, Param_String, Param_CellByRef);
 	//hCanPlayerTeleport = new GlobalForward("TF2_OnPlayerTeleport", ET_Event, Param_Cell, Param_Cell, Param_CellByRef);
 	hOnWaitingForPlayersStart = new GlobalForward("TF2_OnWaitingForPlayersStart", ET_Ignore);
 	hOnWaitingForPlayersEnd = new GlobalForward("TF2_OnWaitingForPlayersEnd", ET_Ignore);
