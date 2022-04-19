@@ -556,7 +556,29 @@ stock TFClassType TF2_GetPlayerClass(int client)
 {
 	return view_as<TFClassType>(GetEntProp(client, Prop_Send, "m_iClass"));
 }
-
+stock TFClassType TF2_GetClass(const char[] classname)
+{
+	if (StrEqual(classname, "scout"))
+		return TFClass_Scout;
+	else if (StrEqual(classname, "soldier"))
+		return TFClass_Soldier;
+	else if (StrEqual(classname, "pyro"))
+		return TFClass_Pyro;
+	else if (StrEqual(classname, "demoman"))
+		return TFClass_DemoMan;
+	else if (StrEqual(classname, "heavy"))
+		return TFClass_Heavy;
+	else if (StrEqual(classname, "engineer"))
+		return TFClass_Engineer;
+	else if (StrEqual(classname, "medic"))
+		return TFClass_Medic;
+	else if (StrEqual(classname, "spy"))
+		return TFClass_Spy;
+	else if (StrEqual(classname, "civilian"))
+		return TFClass_Civilian;
+	else
+		return TFClass_Unknown;
+}
 /**
  * Sets a client's class.
  *
@@ -825,7 +847,7 @@ native void TF2_StunPlayer(int client, float duration, float slowdown = 0.0, int
 forward void TF2_OnConditionRemoved(int client, TFCond cond);
 forward void TF2_OnConditionAdded(int client, TFCond cond, float dur/*, int inflictor*/);
 forward Action TF2_CalcIsAttackCritical(int client, int weapon, char[] weaponname, bool &result);
-forward Action TF2_OnPlayerTeleport(int client, int teleporter, bool &result);
+//forward Action TF2_OnPlayerTeleport(int client, int teleporter, bool &result);
 forward void TF2_OnWaitingForPlayersStart();
 forward void TF2_OnWaitingForPlayersEnd();
 
