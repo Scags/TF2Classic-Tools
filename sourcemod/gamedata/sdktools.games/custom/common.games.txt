@@ -27,9 +27,9 @@
 			// Dynamic cast CBaseEntity -> CBaseCombatWeapon
 			"GiveNamedItem"
 			{
-				"windows"	"402"
-				"linux"		"403"
-				"mac"		"403"
+				"windows"	"401"
+				"linux"		"402"
+				"mac"		"402"
 			}
 			// CBasePlayer::OnTakeDamageAlive is + 2 from me
 			// Has "player_hurt" string and a bunch of guard variables
@@ -54,17 +54,17 @@
 			// I have 4 params (float, bool, float, bool)
 			"Ignite"
 			{
-				"windows"	"210"
-				"linux"		"211"
-				"mac"		"211"
+				"windows"	"209"
+				"linux"		"210"
+				"mac"		"210"
 			}
 			// Keep walking up the vtable from Ignite until u see 10000000h and that's probably it
 			// Probably + 4 from Ignite
 			"Extinguish"
 			{
-				"windows"	"214"
-				"linux"		"215"
-				"mac"		"215"
+				"windows"	"213"
+				"linux"		"214"
+				"mac"		"214"
 			}
 			// "base_player_teleported" has more than 1 param
 			"Teleport"
@@ -77,9 +77,9 @@
 			// I have 2 bool params
 			"CommitSuicide"
 			{
-				"windows"	"441"
-				"linux"		"441"
-				"mac"		"441"
+				"windows"	"440"
+				"linux"		"440"
+				"mac"		"440"
 			}
 			// CBaseEntity::FVisible is + 1 from me
 			// Has "CBaseEntity::FVisible" with vprof stuff
@@ -190,8 +190,8 @@
 			{
 				"library"	"server"
 				"windows"	"\x55\x8B\xEC\x81\xEC\x30\x01\x00\x00\xA1\x2A\x2A\x2A\x2A\x33\xC5\x89\x45\xFC\x53"
-				"linux"		"\x55\x89\xE5\x83\xEC\x34"
-				"mac"		"\x55\x89\xE5\x83\xEC\x34"
+				"linux"		"@_ZN17CBaseEntityOutput10FireOutputE9variant_tP11CBaseEntityS2_f"
+				"mac"		"@_ZN17CBaseEntityOutput10FireOutputE9variant_tP11CBaseEntityS2_f"
 			}
 		}
 	}
