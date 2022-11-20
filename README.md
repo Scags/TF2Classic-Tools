@@ -1,6 +1,7 @@
 # PF2-Tools
 Basic tools for Pre-Fortress 2 Dev Build dedicated server development
-- PF2 0.6 is not supported at this time as it pretty much doesn't work
+
+### This is not compatible with Windows PF2 servers. Mac servers may work, but it hasn't been tested (why would you?) ###
 
 This program comes with base SourceMod gamedata.
 
