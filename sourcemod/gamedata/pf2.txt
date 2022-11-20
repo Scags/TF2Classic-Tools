@@ -1,6 +1,6 @@
 "Games"
 {
-	"pf2beta"
+	"pf2"
 	{
 		"Offsets"
 		{
