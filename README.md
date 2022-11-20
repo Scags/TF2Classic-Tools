@@ -1,6 +1,6 @@
 # PF2-Tools
 Basic tools for Pre-Fortress 2 Dev Build dedicated server development
-
+### You'll have to compile pf2.sp yourself for now, use ./spcomp pf2.sp in sourcemod/scripting ###
 ### This is not compatible with Windows PF2 servers. Mac servers may work, but it hasn't been tested (why would you?) ###
 
 This program comes with base SourceMod gamedata.
