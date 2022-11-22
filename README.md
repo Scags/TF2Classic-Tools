@@ -2,7 +2,7 @@
 Basic tools for Pre-Fortress 2 Dev Build dedicated server development
 ### You'll have to compile pf2.sp yourself for now, use ./spcomp pf2.sp in sourcemod/scripting ###
 
-### Windows Servers are supported on 1.11.6502 and does not required DHooks
+### Windows Servers are partially supported on 1.11.6502 (no PF2 unique functions, just working VGUI menus and other SM features)
 
 
 This program comes with base SourceMod gamedata.
