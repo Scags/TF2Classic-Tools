@@ -1,5 +1,5 @@
 # PF2-Tools
-Basic tools for Pre-Fortress 2 Dev Build dedicated server development
+Basic tools for Pre-Fortress 2 dedicated server development
 
 ### Windows Servers are partially supported (no PF2 unique functions, just working VGUI menus and other SM features)
 
