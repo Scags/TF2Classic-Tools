@@ -755,7 +755,7 @@ stock bool TF2_IsPlayerInCondition(int client, TFCond cond)
 				return true;
 			}*/
 		}
-		case 1:
+/*		case 1:
 		{
 			int bit = (1 << (iCond - 32));
 			if ((GetEntProp(client, Prop_Send, "m_nPlayerCondEx") & bit) == bit)
@@ -778,7 +778,7 @@ stock bool TF2_IsPlayerInCondition(int client, TFCond cond)
 			{
 				return true;
 			}
-		}
+		}*/
 //		case 4:
 //		{
 //			int bit = (1 << (iCond - 128));
