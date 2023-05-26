@@ -36,14 +36,14 @@
 			"Burn"
 			{
 				"library"	"server"
-				"windows"	"?Burn@CTFPlayerShared@@QAEXPAVCTFPlayer@@_N@Z"
+				"windows"	"@?Burn@CTFPlayerShared@@QAEXPAVCTFPlayer@@_N@Z"
 				"linux"		"@_ZN15CTFPlayerShared4BurnEP9CTFPlayerb"
 				"mac"		"@_ZN15CTFPlayerShared4BurnEP9CTFPlayerb"
 			}
 			"RemoveDisguise"
 			{
 				"library"	"server"
-				"windows"	"?RemoveDisguise@CTFPlayerShared@@QAEXXZ"
+				"windows"	"@?RemoveDisguise@CTFPlayerShared@@QAEXXZ"
 				"linux"		"@_ZN15CTFPlayerShared14RemoveDisguiseEv"
 				"mac"		"@_ZN15CTFPlayerShared14RemoveDisguiseEv"
 			}
@@ -51,7 +51,7 @@
 			"Disguise"
 			{
 				"library"	"server"
-				"windows"	"?Disguise@CTFPlayerShared@@QAEXHH@Z"
+				"windows"	"@?Disguise@CTFPlayerShared@@QAEXHH@Z"
 				"linux"		"@_ZN15CTFPlayerShared8DisguiseEii"
 				"mac"		"@_ZN15CTFPlayerShared8DisguiseEii"
 			}
@@ -59,7 +59,7 @@
 			"Regenerate"
 			{
 				"library"	"server"
-				"windows"	"?Regenerate@CTFPlayer@@QAEXXZ"
+				"windows"	"@?Regenerate@CTFPlayer@@QAEXXZ"
 				"linux"		"@_ZN9CTFPlayer10RegenerateEv"
 				"mac"		"@_ZN9CTFPlayer10RegenerateEv"
 			}
@@ -68,7 +68,7 @@
 			"AddCondition"
 			{
 				"library"	"server"
-				"windows"	"?AddCond@CTFPlayerShared@@QAEXHM@Z"
+				"windows"	"@?AddCond@CTFPlayerShared@@QAEXHM@Z"
 				"linux"		"@_ZN15CTFPlayerShared7AddCondEif"
 				"mac"		"@_ZN15CTFPlayerShared7AddCondEif"
 			}
@@ -76,7 +76,7 @@
 			"RemoveCondition"
 			{
 				"library"	"server"
-				"windows"	"?RemoveCond@CTFPlayerShared@@QAEXH@Z"
+				"windows"	"@?RemoveCond@CTFPlayerShared@@QAEXH@Z"
 				"linux"	"@_ZN15CTFPlayerShared10RemoveCondEi"
 				"mac"		"@_ZN15CTFPlayerShared10RemoveCondEi"
 			}
@@ -91,14 +91,14 @@
 			"SetInWaitingForPlayers"
 			{
 				"library" 	"server"
-				"windows"	"?SetInWaitingForPlayers@CTeamplayRoundBasedRules@@IAEX_N@Z"
+				"windows"	"@?SetInWaitingForPlayers@CTeamplayRoundBasedRules@@IAEX_N@Z"
 				"linux" 	"@_ZN24CTeamplayRoundBasedRules22SetInWaitingForPlayersEb"
 				"mac" 	"@_ZN24CTeamplayRoundBasedRules22SetInWaitingForPlayersEb"
 			}
 			"CalcIsAttackCriticalHelper"
 			{
 				"library" 	"server"
-				"windows" 	"?CalcIsAttackCriticalHelper@CTFWeaponBase@@UAE_NXZ"
+				"windows" 	"@?CalcIsAttackCriticalHelper@CTFWeaponBase@@UAE_NXZ"
 				"linux" 	"@_ZN13CTFWeaponBase26CalcIsAttackCriticalHelperEv"
 				"mac" 		"@_ZN13CTFWeaponBase26CalcIsAttackCriticalHelperEv"
 			}

@@ -189,7 +189,7 @@
 			"FireOutput"
 			{
 				"library"	"server"
-				"windows"	"\x55\x8B\xEC\x81\xEC\x30\x01\x00\x00\xA1\x2A\x2A\x2A\x2A\x33\xC5\x89\x45\xFC\x53"
+				"windows"	"@?FireOutput@CBaseEntityOutput@@QAEXVvariant_t@@PAVCBaseEntity@@1M@Z"
 				"linux"		"@_ZN17CBaseEntityOutput10FireOutputE9variant_tP11CBaseEntityS2_f"
 				"mac"		"@_ZN17CBaseEntityOutput10FireOutputE9variant_tP11CBaseEntityS2_f"
 			}
